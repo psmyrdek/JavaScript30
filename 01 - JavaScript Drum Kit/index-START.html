@@ -59,8 +59,30 @@
 
 <script>
 
-</script>
+  document.addEventListener('keydown', function(ev) {
+    const keyCode = ev.keyCode;
 
+    const keyRef = document.querySelector(`.key[data-key="${keyCode}"`);
+    const audioRef = document.querySelector(`audio[data-key="${keyCode}"`);
+
+    if(keyRef) {
+      keyRef.classList.add('playing');
+
+      keyRef.addEventListener('transitionend', function(ev) {
+        if (ev.propertyName !== 'transform') return;
+        ev.target.classList.remove('playing');
+      });
+    }
+
+    if(audioRef) {
+      const audioPath = audioRef.attributes['src'].value;
+      const audioObj = new Audio(audioPath);
+      audioObj.play();
+    }
+
+  });
+
+</script>
 
 </body>
 </html>
